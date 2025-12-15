@@ -9,7 +9,6 @@ A web-based meal management system for tracking student meals (Breakfast, Lunch,
 - User login for staff and admin
 - Register and manage students
 - Real-time detection of current meal (Breakfast / Lunch / Dinner)
-- Countdown timer until the meal period closes
 - Prevent duplicate meal scans per day
 - Meal logs for each student with staff verification
 - Admin dashboard to view and manage meal periods
@@ -20,8 +19,8 @@ A web-based meal management system for tracking student meals (Breakfast, Lunch,
 ## 🛠️ Technology Stack
 
 - **Backend:** PHP 8+
-- **Database:** MariaDB / MySQL
-- **Frontend:** HTML, CSS, JavaScript
+- **Database:** MariaDB 
+- **Frontend:** HTML, CSS
 - **Version Control:** Git & GitHub
 
 ---
