@@ -1,52 +1,72 @@
 <?php
-session_start();
-require '../config/config.php';
+require_once "../config/auth.php";
+require_once "../config/db.php";
 
-/* Only admin can register students */
-if (!isset($_SESSION['staff_id']) || $_SESSION['role'] !== 'admin') {
-    die("Access denied");
+if ($_SESSION['role'] !== 'admin') {
+    header("Location: staff_portal.php");
+    exit();
 }
 
 $msg = "";
-
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
-    $student_id = trim($_POST['student_id']);
-    $full_name  = trim($_POST['full_name']);
+    $student_id = trim($_POST['student_id'] ?? '');
+    $full_name  = trim($_POST['full_name'] ?? '');
+    $password   = trim($_POST['password'] ?? '');
 
-    // Check if student already exists
-    $check = $pdo->prepare("SELECT id FROM students WHERE student_id = ?");
-    $check->execute([$student_id]);
+    if (!empty($student_id) && !empty($full_name) && !empty($password)) {
+        $check = $pdo->prepare("SELECT id FROM students WHERE student_id = ?");
+        $check->execute([$student_id]);
 
-    if ($check->rowCount() > 0) {
-        $msg = "⚠️ Student already registered";
+        if ($check->rowCount() > 0) {
+            $msg = "⚠️ Error: Student ID already exists.";
+        } else {
+            $hashed_pass = md5($password);
+            $stmt = $pdo->prepare("INSERT INTO students (student_id, full_name, password) VALUES (?, ?, ?)");
+            if ($stmt->execute([$student_id, $full_name, $hashed_pass])) {
+                $msg = "✅ Student registered successfully!";
+            } else {
+                $msg = "❌ Error saving to database.";
+            }
+        }
     } else {
-        $stmt = $pdo->prepare(
-            "INSERT INTO students (student_id, full_name)
-             VALUES (?, ?)"
-        );
-        $stmt->execute([$student_id, $full_name]);
-
-        $msg = "✅ Student registered successfully";
+        $msg = "⚠️ All fields are required.";
     }
 }
 ?>
 <!DOCTYPE html>
 <html>
+
 <head>
-    <title>Student Registration</title>
+    <title>Register Student</title>
     <link rel="stylesheet" href="../assets/css/style.css">
 </head>
+
 <body>
-<div class="card">
-    <h2>🎓 Register Student</h2>
+    <div class="navbar">
+        <a href="dashboard.php">Back to Dashboard</a>
+    </div>
 
-    <form method="post">
-        <input type="text" name="student_id" placeholder="Student ID" required>
-        <input type="text" name="full_name" placeholder="Full Name" required>
-        <button type="submit">Register</button>
-    </form>
-
-    <p><?= $msg ?></p>
-</div>
+    <div class="card" style="max-width: 400px; margin: 50px auto;">
+        <h2>🎓 Register New Student</h2>
+        <p>Set a password the student will use at the cafeteria.</p>
+        <hr>
+        <form method="POST">
+            <div class="form-group">
+                <label>Student ID</label>
+                <input type="text" name="student_id" placeholder="e.g. 2024001" required>
+            </div>
+            <div class="form-group">
+                <label>Full Name</label>
+                <input type="text" name="full_name" placeholder="Enter name" required>
+            </div>
+            <div class="form-group">
+                <label>Student Password</label>
+                <input type="password" name="password" placeholder="Enter student password" required>
+            </div>
+            <button type="submit" class="btn-primary">Register Student</button>
+        </form>
+        <p style="text-align:center; font-weight:bold;"><?= $msg ?></p>
+    </div>
 </body>
+
 </html>

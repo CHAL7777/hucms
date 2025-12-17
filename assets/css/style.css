@@ -1,28 +1,152 @@
+/* --- Root Variables for Easy Theme Changes --- */
+:root {
+    --primary-bg: #f4f7f9;
+    --nav-dark: #0a3d62;
+    --accent-blue: #3c6382;
+    --success-green: #2ecc71;
+    --danger-red: #e74c3c;
+    --text-main: #2d3436;
+    --white: #ffffff;
+}
+
 body {
-    font-family: Arial;
-    background: #c9d1da;
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    background-color: var(--primary-bg);
+    margin: 0;
+    color: var(--text-main);
     display: flex;
-    justify-content: center;
+    flex-direction: column;
+    min-height: 100vh;
+}
+
+/* --- Navigation Bar --- */
+.navbar {
+    background: var(--nav-dark);
+    color: var(--white);
+    padding: 0.8rem 2rem;
+    display: flex;
+    justify-content: space-between;
     align-items: center;
-    height: 100vh;
+    box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+}
+
+.navbar a {
+    color: var(--white);
+    text-decoration: none;
+    font-weight: 500;
+    padding: 8px 15px;
+    border-radius: 4px;
+    transition: background 0.3s;
+}
+
+.navbar a:hover {
+    background: var(--accent-blue);
+}
+
+.logout-btn {
+    background: var(--danger-red);
+    font-size: 0.9rem;
+}
+
+/* --- Container & Cards --- */
+.container {
+    max-width: 1000px;
+    margin: 30px auto;
+    padding: 0 20px;
+    background-color: #a0a5a7;
 }
 
 .card {
-    background: white;
-    padding: 25px;
-    width: 320px;
-    border-radius: 10px;
-    box-shadow: 0 10px 25px rgba(0,0,0,.1);
+    background: var(--white);
+    padding: 30px;
+    border-radius: 12px;
+    box-shadow: 0 4px 15px rgba(0,0,0,0.05);
+    width: 100%;
+    max-width: 400px;
+    margin: auto; /* Center cards in login/verification */
 }
 
-input, button {
+/* --- Dashboard Menu Grid --- */
+.menu-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+    gap: 20px;
+    margin-top: 20px;
+}
+
+.menu-card {
+    background: var(--white);
+    padding: 25px;
+    text-align: center;
+    text-decoration: none;
+    color: var(--nav-dark);
+    border-radius: 10px;
+    border-bottom: 4px solid var(--nav-dark);
+    transition: transform 0.2s, box-shadow 0.2s;
+}
+
+.menu-card:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 6px 20px rgba(0,0,0,0.1);
+}
+
+/* --- Forms & Inputs --- */
+input {
     width: 100%;
-    padding: 10px;
-    margin-top: 10px;
+    padding: 12px;
+    margin: 10px 0;
+    border: 1px solid #ddd;
+    border-radius: 6px;
+    box-sizing: border-box; /* Crucial for padding */
+    font-size: 1rem;
 }
 
 button {
-    background: #2ecc71;
+    width: 100%;
+    padding: 12px;
+    background: var(--nav-dark);
     color: white;
     border: none;
+    border-radius: 6px;
+    cursor: pointer;
+    font-size: 1rem;
+    font-weight: 600;
+    transition: opacity 0.3s;
 }
+
+button:hover {
+    opacity: 0.9;
+}
+
+.btn-verify {
+    background: var(--success-green);
+}
+
+/* --- Tables --- */
+table {
+    width: 100%;
+    border-collapse: collapse;
+    background: var(--white);
+    border-radius: 8px;
+    overflow: hidden;
+    margin-top: 20px;
+}
+
+th, td {
+    padding: 15px;
+    text-align: left;
+    border-bottom: 1px solid #eee;
+}
+
+th {
+    background: var(--nav-dark);
+    color: var(--white);
+}
+
+tr:hover {
+    background: #f9f9f9;
+}
+
+/* --- Messages --- */
+.error { color: var(--danger-red); font-weight: bold; }
+.success { color: var(--success-green); font-weight: bold; }
