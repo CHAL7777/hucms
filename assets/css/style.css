@@ -1,6 +1,6 @@
 body {
     font-family: Arial;
-    background: #c9d1da;
+    background: #092849;
     display: flex;
     justify-content: center;
     align-items: center;
@@ -25,4 +25,65 @@ button {
     background: #2ecc71;
     color: white;
     border: none;
+}
+/*new css
+*/
+body {
+    font-family: Arial, sans-serif;
+    background: #f4f6f8;
+    margin: 0;
+}
+
+.navbar {
+    background: #0a3d62;
+    color: white;
+    padding: 15px;
+}
+
+.navbar a {
+    color: white;
+    margin: 0 10px;
+    text-decoration: none;
+}
+
+.logout {
+    float: right;
+}
+
+.container {
+    padding: 20px;
+}
+
+.login-box {
+    width: 300px;
+    margin: 100px auto;
+    background: white;
+    padding: 20px;
+    box-shadow: 0 0 10px #aaa;
+}
+
+input, button {
+    width: 100%;
+    padding: 10px;
+    margin: 8px 0;
+}
+
+button {
+    background: #0a3d62;
+    color: white;
+    border: none;
+}
+
+table {
+    width: 100%;
+    border-collapse: collapse;
+}
+
+table, th, td {
+    border: 1px solid #ccc;
+    padding: 10px;
+}
+
+.error {
+    color: red;
 }

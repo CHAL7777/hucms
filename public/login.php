@@ -1,24 +1,25 @@
 <?php
-session_start();
-require '../config/config.php';
+require_once "../config/db.php";
+if (session_status() === PHP_SESSION_NONE) {
+    session_start();
+}
 
 $error = "";
 
-if ($_SERVER['REQUEST_METHOD'] === 'POST') {
+if ($_SERVER["REQUEST_METHOD"] == "POST") {
     $username = $_POST['username'];
-    $password = $_POST['password'];
+    $password = md5($_POST['password']);
 
-    $stmt = $pdo->prepare("SELECT * FROM admin_users WHERE username=?");
-    $stmt->execute([$username]);
+    $stmt = $pdo->prepare("SELECT * FROM users WHERE username = ? AND password = ?");
+    $stmt->execute([$username, $password]);
     $user = $stmt->fetch();
 
-    if ($user && password_verify($password, $user['password'])) {
+    if ($user) {
+        $_SESSION['user'] = $user['username'];
+        $_SESSION['role'] = $user['role'];
         $_SESSION['staff_id'] = $user['id'];
-        $_SESSION['username'] = $user['username'];
-        $_SESSION['role']     = $user['role'];
-
         header("Location: dashboard.php");
-        exit;
+        exit();
     } else {
         $error = "Invalid username or password";
     }
@@ -26,19 +27,22 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 ?>
 <!DOCTYPE html>
 <html>
+
 <head>
-    <title>Staff Login</title>
     <link rel="stylesheet" href="../assets/css/style.css">
+    <title>Login</title>
 </head>
+
 <body>
-<div class="card">
-    <h2>🔐 Staff Login</h2>
-    <?php if($error): ?><p class="error"><?= $error ?></p><?php endif; ?>
-    <form method="post">
-        <input name="username" placeholder="Username" required>
-        <input type="password" name="password" placeholder="Password" required>
-        <button>Login</button>
-    </form>
-</div>
+    <div class="login-box">
+        <h2>HUCMS Login</h2>
+        <form method="post">
+            <input type="text" name="username" placeholder="Username" required>
+            <input type="password" name="password" placeholder="Password" required>
+            <button type="submit">Login</button>
+            <p class="error"><?= $error ?></p>
+        </form>
+    </div>
 </body>
+
 </html>
