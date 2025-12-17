@@ -47,6 +47,9 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     </form>
 
     <p><?= $msg ?></p>
+    
+    <hr>
+    <a href="dashboard.php" style="text-decoration: none; color: #007bff;">🏠 Back to Dashboard</a>
 </div>
 </body>
 </html>
